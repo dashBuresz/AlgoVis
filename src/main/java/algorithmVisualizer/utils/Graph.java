@@ -11,4 +11,7 @@ public class Graph {
     {
 
     }
+//getter setter
+    public int getNumberOfEdges() {return m;}
+    public int getNumberOfNodes() {return n;}
 }
