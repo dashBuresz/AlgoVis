@@ -1,16 +1,19 @@
 package algorithmVisualizer.utils;
 
-public class Node {
+public class Vertex {
     private final int id;
     private String name;
-    Node(int id)
+    private int pozx, pozy; //for gui purposes
+    Vertex(int id)
     {
         this.id = id;
         this.name = Integer.toString(id);
     }
-    Node(int id, String name)
+    Vertex(int id, String name)
     {
         this.id = id;
         this.name = name;
     }
+    public String name() {return name;}
+    public int id() {return id;}
 }

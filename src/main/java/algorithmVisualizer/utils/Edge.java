@@ -1,32 +1,32 @@
 package algorithmVisualizer.utils;
 
 public class Edge {
-    private Node start, end;
+    private Vertex start, end;
     private int weight = 1;
-    Edge(Node start, Node end)
+    Edge(Vertex start, Vertex end)
     {
         this.start = start;
         this.end = end;
     }
-    Edge(Node start, Node end, int weight)
+    Edge(Vertex start, Vertex end, int weight)
     {
         this(start, end);
         this.weight = weight;
     }
 //getter setter
-    public Node getStart() {
+    public Vertex getStart() {
         return start;
     }
-    public Node getEnd() {
+    public Vertex getEnd() {
         return end;
     }
     public int getWeight() {
         return weight;
     }
-    public void setStart(Node start) {
+    public void setStart(Vertex start) {
         this.start = start;
     }
-    public void setEnd(Node end) {
+    public void setEnd(Vertex end) {
         this.end = end;
     }
     public void setWeight(int weight) {
