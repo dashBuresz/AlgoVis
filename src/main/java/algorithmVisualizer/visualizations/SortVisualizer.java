@@ -1,4 +1,4 @@
-package algorithmVisualizer.visualizations;
+package algorithmvisualizer.algovisfx.visualizations;
 
 public class SortVisualizer {
 }
