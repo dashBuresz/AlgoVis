@@ -27,16 +27,29 @@ public class BFS {
     public BFS(Graph graph, Vertex start)
     {
         active = start;
+        if (graph.findAdjacentVertices(active).isEmpty())
+        {
+            System.err.println("active Vertex has no adjacent vertices");
+        }
+        bfsQueue.addAll(graph.findAdjacentVertices(active));
         bfsSpanningTree = new Graph(graph.getNumberOfVertices(), graph.getNumberOfVertices()-1, graph.directed(), graph.weighted());
         this.graph = graph;
     }
     public Graph runFullBFS()
     {
-
+        while (!bfsQueue.isEmpty())
+        {
+            stepBFS();
+        }
+        //if (bfsSpanningTree.getVertices().equals(graph.getVertices())) return bfsSpanningTree;
+        //else return null;
         return bfsSpanningTree;
     }
+    //TODO: Implement a step of an initialized BFS algorithm
     public void stepBFS()
     {
 
     }
+    //utils
+    public void setActive(Vertex newActive) {active = newActive;}
 }
