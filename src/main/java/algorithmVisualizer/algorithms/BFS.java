@@ -4,6 +4,7 @@ import algorithmVisualizer.utils.Graph;
 import algorithmVisualizer.utils.Vertex;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 
 public class BFS {
     //TODO Implement Breadth First Search Algorithm
@@ -32,20 +33,21 @@ public class BFS {
     public BFS(Graph graph, Vertex start)
     {
         active = start;
+        bfsSpanningTree = new Graph(1, 0, graph.directed(), graph.weighted());
+        bfsSpanningTree.addVertex(active);
         if (graph.findAdjacentVertices(active).isEmpty()) System.err.println("active Vertex has no adjacent vertices");
 
-        bfsQueue.addAll(graph.findAdjacentVertices(active));    //initialize the queue
+        ArrayList<Vertex> adjacentOfActive = graph.findAdjacentVertices(active);
+        bfsQueue.addAll(adjacentOfActive);    //initialize the queue
+        bfsSpanningTree.getVertices().addAll(adjacentOfActive);
         //adding the edges between the start vertex, and its adjacent vertices
         for (Vertex v : bfsQueue)
         {
             bfsSpanningTree.addEdge(graph.findEdge(active, v));
         }
-
         //we create an empty graph, with the directed and weighted parameters of the original.
         //We'll start adding in vertices and edges as the algorithm progresses.
-        bfsSpanningTree = new Graph(1, 0, graph.directed(), graph.weighted());
         this.graph = graph;
-        this.bfsSpanningTree.addVertex(active);
     }
 
     /**
@@ -54,12 +56,7 @@ public class BFS {
      */
     public Graph runFullBFS()
     {
-        while (!bfsQueue.isEmpty())
-        {
-            step();
-        }
-        //if (bfsSpanningTree.getVertices().equals(graph.getVertices())) return bfsSpanningTree;
-        //else return null;
+        while (!bfsQueue.isEmpty()) step();
         return bfsSpanningTree;
     }
 
@@ -70,6 +67,7 @@ public class BFS {
     //TODO: Implement a step of an initialized BFS algorithm
     public void step()
     {
+        if (bfsQueue.isEmpty()) return;
         //assumptions: bfsQueue already initialized, active already initialized, bfsSpanningTree
         finished.add(active); //add the active to the finished list
         //find unvisited adjacent vertices of the active vertex
@@ -79,26 +77,19 @@ public class BFS {
             {
                 bfsQueue.add(v);
                 //create necessary edges in the spanning tree
+                bfsSpanningTree.addVertex(v);
                 bfsSpanningTree.addEdge(graph.findEdge(active, v));
             }
         }
         active = bfsQueue.pop();
-
     }
     //utils
     public void setActive(Vertex newActive) {active = newActive;}
-
+    public Graph getBfsSpanningTree() {return bfsSpanningTree;}
     /**
-     * Checks whether the vertex given by the parameter is in the bfsQueue
-     * @param vertex: The vertex we check whether it's in or not.
-     * @return Whether the vertex is already in the queue.
+     * Checks whether the vertex given by the parameter is not the bfsQueue
+     * @param vertex: The vertex to check whether it's not in or in.
+     * @return Whether the vertex is not in the queue.
      */
-    public boolean isNotInQueue(Vertex vertex)
-    {
-        for (Vertex v : bfsQueue)
-        {
-            if (v.equals(vertex)) return false;
-        }
-        return true;
-    }
+    public boolean isNotInQueue(Vertex vertex) {return !bfsQueue.contains(vertex) && !finished.contains(vertex);}
 }
