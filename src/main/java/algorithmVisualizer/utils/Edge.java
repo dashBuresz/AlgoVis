@@ -3,11 +3,23 @@ package algorithmVisualizer.utils;
 public class Edge {
     private Vertex start, end;
     private int weight = 1;
+
+    /**
+     * Creates an edge with the start and end vertices given by the parameters. The weight variable here is set to 1 by default.
+     * @param start: The start vertex of the edge.
+     * @param end: The end vertex of the edge.
+     */
     Edge(Vertex start, Vertex end)
     {
         this.start = start;
         this.end = end;
     }
+    /**
+     * Creates an edge with the start, end vertices and weight given by the parameters.
+     * @param start: The start vertex of the edge.
+     * @param end: The end vertex of the edge.
+     * @param weight: The weight of the edge.
+     */
     Edge(Vertex start, Vertex end, int weight)
     {
         this(start, end);
