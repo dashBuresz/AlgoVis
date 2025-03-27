@@ -20,6 +20,9 @@ public class Graph {
         this.m = m;
         this.directed = directed;
         this.weighted = weighted;
+        adjacencyList = new ArrayList<>();
+        vertices = new ArrayList<>();
+        edges = new ArrayList<>();
     }
 
     /**
@@ -44,9 +47,8 @@ public class Graph {
                 random1 = random.nextInt(n);
                 random2 = random.nextInt(n);
                 Edge newEdge = new Edge(vertices.get(random1), vertices.get(random2));
-                if (random1 != random2 && !isParallelEdge(newEdge) && !isLoopEdge(newEdge)) {
+                if (random1 != random2 && !isParallelEdge(newEdge) && !isLoopEdge(newEdge))
                     edges.add(newEdge);
-                }
             }
         }
         //if the graph is a tree
@@ -77,20 +79,23 @@ public class Graph {
                     Vertex outOfTreeVertex = notInTree.get(random1);
                     Vertex inTreeVertex = treeGenerator.getBfsSpanningTree().getVertices().get(random2);
                     addEdge(new Edge(inTreeVertex, outOfTreeVertex));
-                    //TODO: updating the adjacency-list
+                    //TODO: updating the adjacency-list ALREADY HANDLED IN THE ADDEDGE METHOD
                 }
                 treeGenerator.runFullBFS();
             }
         }
         //if the edges are weighted we assign them values randomly (depending on if there is negative weight or not)
-        if (weighted)
+        for (Edge e : edges)
         {
-            //TODO: Implement logic for weighting edges.
-        }else
-        {
-            for (Edge e : edges)
-                e.setWeight(1);
+            if (weighted)
+            {
+                //TODO: Implement logic for weighting edges. COMPLETE
+                if (negativeWeights) e.setWeight(random.nextInt(-10,10));
+                else e.setWeight(random.nextInt(10));
+            }
+            else e.setWeight(1);
         }
+
     }
 //Getter-Setter
     public int getNumberOfEdges() {return m;}
@@ -111,9 +116,15 @@ public class Graph {
             m = m + 1;
             //updating the adjacency-list
             //TODO: Implement the update of adjacencyList depending on whether the graph is directed or not
-            // (if directed we add to both to the start and end vertex adjacencyList).
+            // (if directed we add to both to the start and end vertex adjacencyList).  COMPLETE
             for (ArrayList<Vertex> adjList : adjacencyList)
                 if (adjList.get(0).equals(newEdge.getStart())) adjList.add(newEdge.getEnd());
+            if (!directed)
+            {
+                for (ArrayList<Vertex> adjList : adjacencyList)
+                    if (adjList.get(0).equals(newEdge.getEnd()))
+                        adjList.add(newEdge.getStart());
+            }
         }
     }
     /**
@@ -132,9 +143,14 @@ public class Graph {
         }
         //updating the adjacency-list
         //TODO: Implement the update of adjacencyList depending on whether the graph is directed or not
-        // (if directed we add to both to the start and end vertex adjacencyList).
+        // (if directed we add to both to the start and end vertex adjacencyList).  COMPLETE
         for (ArrayList<Vertex> adjList : adjacencyList)
             if (adjList.get(0).equals(start)) adjList.add(end);
+        if (!directed)
+        {
+            for (ArrayList<Vertex> adjList : adjacencyList)
+                if (adjList.get(0).equals(end)) adjList.add(start);
+        }
     }
 
     /**
@@ -178,9 +194,14 @@ public class Graph {
         edges.remove(edge);
         m = m - 1;
         //updating the adjacency-list
-        //TODO: implement logic to make this dependent on the directed property of the graph
+        //TODO: implement logic to make this dependent on the directed property of the graph    COMPLETE
         ArrayList<Vertex> adjListToModify = findAdjacentVertices(edge.getStart());
         adjListToModify.remove(edge.getEnd());
+        if (!directed)      //if the graph is not directed, we need to modify the adjacency-list of
+        {                   //the end vertex as well, because of the way our data is structured
+            adjListToModify = findAdjacentVertices(edge.getEnd());
+            adjListToModify.remove(edge.getStart());
+        }
     }
 
     /**
@@ -277,9 +298,17 @@ public class Graph {
      */
     public Edge findEdge(Vertex start, Vertex end)
     {
-        //TODO:Implement different cases for directed and non-directed graphs
-        for (Edge e : edges)
-            if (e.getStart().equals(start) && e.getEnd().equals(end)) return e;
+        //TODO:Implement different cases for directed and non-directed graphs COMPLETE
+        if (directed)
+        {
+            for (Edge e : edges)
+                if (e.getStart().equals(start) && e.getEnd().equals(end)) return e;
+        }
+        else
+        {
+            for (Edge e : edges)
+                if (e.getStart().equals(start) && e.getEnd().equals(end) || e.getStart().equals(end) && e.getEnd().equals(start)) return e;
+        }
         return null;
     }
     public boolean hasVertex(Vertex vertex) {return vertices.contains(vertex);}
