@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -32,7 +33,9 @@ public class Main extends Application {
         vBoxPane.setAlignment(Pos.CENTER);
         vBoxPane.setSpacing(10);
 
-        Scene root = new Scene(vBoxPane, 400, 300);
+        //enterGraphVisualizer
+
+        Scene root = new Scene(vBoxPane, 400, 300, Color.DARKGREY);
         Stage primaryStage = new Stage();
         primaryStage.setTitle("AlgoVisFX");
         primaryStage.setScene(root);
