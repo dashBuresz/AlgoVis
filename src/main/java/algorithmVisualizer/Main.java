@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -24,18 +25,34 @@ public class Main extends Application {
         enterGraphVisualizer.setPrefWidth(150);
         Button enterSortVisualizer = new Button("Enter Sort Visualizer");
         enterSortVisualizer.setPrefWidth(150);
+        Button exit = new Button("Exit");
+        exit.setPrefWidth(150);
 
         VBox vBoxPane = new VBox();
-        vBoxPane.getChildren().add(helloLabel);
-        vBoxPane.getChildren().add(enterGraphVisualizer);
-        vBoxPane.getChildren().add(enterSortVisualizer);
+        vBoxPane.getChildren().addAll(helloLabel, enterGraphVisualizer, enterSortVisualizer, exit);
         vBoxPane.setAlignment(Pos.CENTER);
         vBoxPane.setSpacing(10);
 
-        Scene root = new Scene(vBoxPane, 400, 300);
+        ////
+        enterGraphVisualizer.setOnAction(event -> {
+            enterGraphVisualizerButton();
+        });
+        exit.setOnAction(event -> {
+            exitButton();
+        });
+        ////
+        Scene scene = new Scene(vBoxPane, 400, 300, Color.DARKGREY);
         Stage primaryStage = new Stage();
         primaryStage.setTitle("AlgoVisFX");
-        primaryStage.setScene(root);
+        primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    private void enterGraphVisualizerButton()
+    {
+        System.out.println("graphvis pressed");
+    }
+    private void exitButton()
+    {
+        System.out.println("exit pressed");
     }
 }

@@ -1,5 +1,7 @@
 package algorithmVisualizer.utils;
 
+import algorithmVisualizer.algorithms.BFS;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -18,7 +20,16 @@ public class Graph {
         this.m = m;
         this.directed = directed;
         this.weighted = weighted;
+        adjacencyList = new ArrayList<>();
+        vertices = new ArrayList<>();
+        edges = new ArrayList<>();
     }
+
+    /**
+     * This method generates a graph based on the given parameters, updating all the necessary data within the class
+     * @param isTree: boolean value, describing whether we want to generate a tree or not
+     * @param negativeWeights: boolean value determining if we allow negative weights, if the graph is not weighted the value of all weights is 1
+     */
     public void generateGraph(boolean isTree, boolean negativeWeights)
     {
         //we first create a simple graph (without parallel and loop edges), and then if we want a tree we run a bfs and make a tree out of it
@@ -30,14 +41,14 @@ public class Graph {
         builderGraph.vertices = this.vertices;
 
         //if the graph isn't a tree
+        //TODO: not complete yet
         if (!isTree) {
             while (edges.size() <= m) {
                 random1 = random.nextInt(n);
                 random2 = random.nextInt(n);
                 Edge newEdge = new Edge(vertices.get(random1), vertices.get(random2));
-                if (random1 != random2 && !isParallelEdge(newEdge) && !isLoopEdge(newEdge)) {
+                if (random1 != random2 && !isParallelEdge(newEdge) && !isLoopEdge(newEdge))
                     edges.add(newEdge);
-                }
             }
         }
         //if the graph is a tree
@@ -52,11 +63,41 @@ public class Graph {
         //we can connect the vertices that are not in the spanning tree to the spanning tree randomly, and we can run a BFS again
         //so we always get a tree, until the vertices of the BFS spanning tree and the vertices of the original graph are the same.
         ///////////////////////////
+        if(isTree) {
+            BFS treeGenerator = new BFS(this, vertices.get(0));
+            treeGenerator.runFullBFS();
+            while (treeGenerator.getBfsSpanningTree().getNumberOfVertices() < n)
+            {
+                ArrayList<Vertex> notInTree = new ArrayList<>();
+                for (Vertex v : vertices)
+                    if (!treeGenerator.getBfsSpanningTree().hasVertex(v)) notInTree.add(v);
 
+                if (!notInTree.isEmpty())
+                {
+                    random1 = random.nextInt(notInTree.size());
+                    random2 = random.nextInt(treeGenerator.getBfsSpanningTree().getNumberOfVertices());
+                    Vertex outOfTreeVertex = notInTree.get(random1);
+                    Vertex inTreeVertex = treeGenerator.getBfsSpanningTree().getVertices().get(random2);
+                    addEdge(new Edge(inTreeVertex, outOfTreeVertex));
+                    //TODO: updating the adjacency-list ALREADY HANDLED IN THE ADDEDGE METHOD
+                }
+                treeGenerator.runFullBFS();
+            }
+        }
         //if the edges are weighted we assign them values randomly (depending on if there is negative weight or not)
+        for (Edge e : edges)
+        {
+            if (weighted)
+            {
+                //TODO: Implement logic for weighting edges. COMPLETE
+                if (negativeWeights) e.setWeight(random.nextInt(-10,10));
+                else e.setWeight(random.nextInt(10));
+            }
+            else e.setWeight(1);
+        }
 
     }
-//getter setter
+//Getter-Setter
     public int getNumberOfEdges() {return m;}
     public int getNumberOfVertices() {return n;}
     public boolean directed() { return directed;}
@@ -64,13 +105,34 @@ public class Graph {
     public ArrayList<Vertex> getVertices() {return vertices;}
     public ArrayList<Edge> getEdges() {return edges;}
 //Utilities
+    /**The method adds the edge object given by the parameters, updates the edges, and adjacency list collections as well.
+     * @param newEdge: an Edge object we want to add to our graph.
+     **/
     public void addEdge(Edge newEdge)
     {
-        edges.add(newEdge);
-        m = m + 1;
-        for (ArrayList<Vertex> adjList : adjacencyList)
-            if (adjList.get(0).equals(newEdge.getStart())) adjList.add(newEdge.getEnd());
+        //we only add the edge, if the edge is not in the graph already, to avoid parallel edges
+        if (!edges.contains(newEdge)) {
+            edges.add(newEdge);
+            m = m + 1;
+            //updating the adjacency-list
+            //TODO: Implement the update of adjacencyList depending on whether the graph is directed or not
+            // (if directed we add to both to the start and end vertex adjacencyList).  COMPLETE
+            for (ArrayList<Vertex> adjList : adjacencyList)
+                if (adjList.get(0).equals(newEdge.getStart())) adjList.add(newEdge.getEnd());
+            if (!directed)
+            {
+                for (ArrayList<Vertex> adjList : adjacencyList)
+                    if (adjList.get(0).equals(newEdge.getEnd()))
+                        adjList.add(newEdge.getStart());
+            }
+        }
     }
+    /**
+     * The method adds a new edge based on the parameters, updates the edges, and adjacency list collections as well.
+     * @param start: Vertex object necessary for the Edge constructor, representing the starting vertex of the new edge.
+     * @param end: Vertex object necessary for the Edge constructor, representing the end vertex of the new edge.
+     * @param weight: int variable representing the weight of the new edge.
+     **/
     public void addEdge(Vertex start, Vertex end, int weight)
     {
         Edge newEdge = new Edge(start, end, weight);
@@ -79,22 +141,76 @@ public class Graph {
             edges.add(newEdge);
             m = m + 1;
         }
+        //updating the adjacency-list
+        //TODO: Implement the update of adjacencyList depending on whether the graph is directed or not
+        // (if directed we add to both to the start and end vertex adjacencyList).  COMPLETE
         for (ArrayList<Vertex> adjList : adjacencyList)
             if (adjList.get(0).equals(start)) adjList.add(end);
+        if (!directed)
+        {
+            for (ArrayList<Vertex> adjList : adjacencyList)
+                if (adjList.get(0).equals(end)) adjList.add(start);
+        }
     }
+
+    /**
+     * Adds a new vertex, without any parameters
+     */
     public void addVertex()
     {
         Vertex newVertex = new Vertex(vertices.size());
+        //updating the adjacency-list
         vertices.add(newVertex);
+        ArrayList<Vertex> adjList = new ArrayList<>();
+        adjList.add(newVertex);
+        adjacencyList.add(adjList);
         n = n + 1;
     }
+
+    /**
+     * Adds a new vertex given as a parameter, we update the vertices collection. If the vertex is already in the graph we do nothing.
+     * @param vertex: the specific vertex we want to add.
+     */
+    public void addVertex(Vertex vertex)
+    {
+        if (!vertices.contains(vertex))
+        {
+            vertices.add(vertex);
+            //updating the adjacency-list
+            ArrayList<Vertex> adjList = new ArrayList<>();
+            adjList.add(vertex);
+            adjacencyList.add(adjList);
+            n += 1;
+        }
+    }
+
+    /**
+     * Removes an edge from the graph given by the parameters, we update both the edges and adjacencyList collections.
+     * @param edge: The edge we want to remove.
+     */
     public void removeEdge(Edge edge)
     {
+        if (!edges.contains(edge)) return;
         edges.remove(edge);
         m = m - 1;
+        //updating the adjacency-list
+        //TODO: implement logic to make this dependent on the directed property of the graph    COMPLETE
+        ArrayList<Vertex> adjListToModify = findAdjacentVertices(edge.getStart());
+        adjListToModify.remove(edge.getEnd());
+        if (!directed)      //if the graph is not directed, we need to modify the adjacency-list of
+        {                   //the end vertex as well, because of the way our data is structured
+            adjListToModify = findAdjacentVertices(edge.getEnd());
+            adjListToModify.remove(edge.getStart());
+        }
     }
+
+    /**
+     * Removes the vertex given as the parameter from the graph, and all the edges connecting to it. Updates the edges, adjacencyList and vertices collections.
+     * @param vertex: The vertex to remove from the graph.
+     */
     public void removeVertex(Vertex vertex)
     {
+        if (!vertices.contains(vertex)) return;
         //we also need to remove all the edges that connect to this vertex
         ArrayList<Edge> edgesToRemove = new ArrayList<>();
         for (int i = 0; i < m; i++)
@@ -114,6 +230,12 @@ public class Graph {
             else subList.removeIf(v -> v.equals(vertex));
         }
     }
+
+    /**
+     * Finds the adjacent vertices to the vertex given as the parameter.
+     * @param vertex: The vertex, we want the adjacent vertices to.
+     * @return returns the adjacent vertices to the parameter vertex.
+     */
     public ArrayList<Vertex> findAdjacentVertices(Vertex vertex)
     {
         ArrayList<Vertex> adjacentVertices = new ArrayList<>();
@@ -125,6 +247,12 @@ public class Graph {
         }
         return adjacentVertices;
     }
+
+    /**
+     * Checks whether the edge given by the parameter is parallel to any edges within the graph.
+     * @param edge: the edge we check if it's parallel to any edges in the graph.
+     * @return if the edge is parallel or not.
+     */
     public boolean isParallelEdge(Edge edge)
     {
         for(Edge e : edges)
@@ -136,6 +264,10 @@ public class Graph {
         }
         return false;
     }
+
+    /**
+     * Generates the vertices of the graph
+     */
     private void generateVertices()
     {
         //adding n new vertices to the graph
@@ -144,17 +276,40 @@ public class Graph {
             Vertex newVertex = new Vertex(i + 1);
             vertices.add(newVertex);
             ArrayList<Vertex> adjListOfNewVertex= new ArrayList<>();
-            //add vertex to it's own adjacency-sub-list
+            //add vertex to its own adjacency-sub-list
             adjListOfNewVertex.add(newVertex);
             //add the adjacency-sub-list to the adjacency-list (or with other word the list of adjacency-lists)
             adjacencyList.add(adjListOfNewVertex);
         }
     }
+
+    /**
+     * Checks whether the edge given by the parameter is a looped edge.
+     * @param edge: the edge to be checked whether it is looped or not.
+     * @return if the edge is a looped edge or not.
+     */
     public static boolean isLoopEdge(Edge edge) {return edge.getStart().equals(edge.getEnd());}
+
+    /**
+     * Finds an edge in the graph based on its start and end vertex.
+     * @param start: The starting vertex of the edge.
+     * @param end: The end vertex of the edge.
+     * @return the edge that was searched for, if not found returns null.
+     */
     public Edge findEdge(Vertex start, Vertex end)
     {
-        for (Edge e : edges)
-            if (e.getStart().equals(start) && e.getEnd().equals(end)) return e;
+        //TODO:Implement different cases for directed and non-directed graphs COMPLETE
+        if (directed)
+        {
+            for (Edge e : edges)
+                if (e.getStart().equals(start) && e.getEnd().equals(end)) return e;
+        }
+        else
+        {
+            for (Edge e : edges)
+                if (e.getStart().equals(start) && e.getEnd().equals(end) || e.getStart().equals(end) && e.getEnd().equals(start)) return e;
+        }
         return null;
     }
+    public boolean hasVertex(Vertex vertex) {return vertices.contains(vertex);}
 }
