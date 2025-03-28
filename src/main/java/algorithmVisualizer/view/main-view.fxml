@@ -11,5 +11,6 @@
     <Label text="Welcome to AlgoVis!"/>
     <Button fx:id="enterGraphVisualizer" text="Enter Graph Visualizer" prefWidth="150"/>
     <Button fx:id="enterSortVisualizer" text="Enter Sort Visualizer" prefWidth="150"/>
+    <Button fx:id="exit" text="Exit" prefWidth="150"/>
 
 </VBox>

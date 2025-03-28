@@ -1,9 +1,9 @@
-package algorithmVisualizer;
+package algorithmVisualizer.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
-public class MainController {
+public class MainViewController {
     @FXML
     private Button enterGraphVisualizer;
 
