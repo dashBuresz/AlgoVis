@@ -20,7 +20,7 @@ public class Main extends Application {
         Parent root = loader.load();
 
         stage.setTitle("AlgoVisFX");
-        stage.setScene(new Scene(root, 400, 300));
+        stage.setScene(new Scene(root));
         stage.show();
     }
     private void enterGraphVisualizerButton()

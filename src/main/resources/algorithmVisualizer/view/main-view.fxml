@@ -1,16 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Button?>
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="algorithmVisualizer.Main"
-      prefHeight="400.0" prefWidth="600.0"
-      alignment = "CENTER" spacing="10">
-    <Label text="Welcome to AlgoVis!"/>
-    <Button fx:id="enterGraphVisualizer" text="Enter Graph Visualizer" prefWidth="150"/>
-    <Button fx:id="enterSortVisualizer" text="Enter Sort Visualizer" prefWidth="150"/>
-    <Button fx:id="exit" text="Exit" prefWidth="150"/>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-</VBox>
+<Pane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="algorithmVisualizer.view.MainViewController">
+    
+   <children>
+      <VBox alignment="CENTER" prefHeight="800.0" prefWidth="1200.0" spacing="10" style="-fx-background-image: url(&quot;AlgoVisBG.jpg&quot;); -fx-background-position: center; -fx-background-size: cover;">
+          <Label alignment="CENTER" contentDisplay="TOP" graphicTextGap="2.0" prefHeight="30.0" prefWidth="230.0" text="Welcome to AlgoVis!" textAlignment="CENTER" textFill="WHITE">
+            <font>
+               <Font size="24.0" />
+            </font>
+            <effect>
+               <Reflection />
+            </effect>
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets></Label>
+          <Button fx:id="enterGraphVisualizer"
+                  prefHeight="25.0"
+                  prefWidth="220.0"
+                  style="-fx-background-color: GREY;"
+                  text="Enter Graph Visualizer"
+                  textFill="WHITE"
+          />
+          <Button fx:id="enterSortVisualizer"
+                  prefHeight="25.0"
+                  prefWidth="220.0"
+                  style="-fx-background-color: GREY;"
+                  text="Enter Sort Visualizer"
+                  textFill="WHITE"
+          />
+          <Button fx:id="exit"
+                  prefHeight="25.0"
+                  prefWidth="220.0"
+                  style="-fx-background-color: GREY;"
+                  text="Exit"
+                  textFill="WHITE"
+          />
+      </VBox>
+   </children>
+</Pane>
