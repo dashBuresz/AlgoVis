@@ -17,12 +17,4 @@ public class MainViewController {
         enterSortVisualizer.setOnAction(e -> System.out.println("Sort Visualizer opened"));
 
     }
-    /* add to Main.java:
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/hu/example/main-view.fxml"));
-        Parent root = loader.load();
-
-        primaryStage.setTitle("AlgoVisFX");
-        primaryStage.setScene(new Scene(root, 400, 300));
-        primaryStage.show();
-     */
 }
