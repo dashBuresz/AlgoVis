@@ -6,23 +6,28 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="algorithmVisualizer.view.MainViewController">
-    
-   <children>
-      <VBox alignment="CENTER" prefHeight="800.0" prefWidth="1200.0" spacing="10" style="-fx-background-image: url(&quot;AlgoVisBG.jpg&quot;); -fx-background-position: center; -fx-background-size: cover;">
-          <Label alignment="CENTER" contentDisplay="TOP" graphicTextGap="2.0" prefHeight="30.0" prefWidth="230.0" text="Welcome to AlgoVis!" textAlignment="CENTER" textFill="WHITE">
-            <font>
-               <Font size="24.0" />
-            </font>
-            <effect>
-               <Reflection />
-            </effect>
-            <opaqueInsets>
-               <Insets />
-            </opaqueInsets></Label>
-          <Button fx:id="enterGraphVisualizer" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: GREY;" text="Enter Graph Visualizer" textFill="WHITE" />
-          <Button fx:id="enterSortVisualizer" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: GREY;" text="Enter Sort Visualizer" textFill="WHITE" />
-          <Button fx:id="exit" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: GREY;" text="Exit" textFill="WHITE" />
-      </VBox>
-   </children>
+<Pane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="algorithmVisualizer.view.MainViewController">
+
+    <VBox alignment="CENTER" prefHeight="800.0" prefWidth="1200.0" spacing="10"
+          style="-fx-background-image: url(&quot;AlgoVisBG.jpg&quot;); -fx-background-position: center; -fx-background-size: cover;">
+        <Label alignment="CENTER" contentDisplay="TOP" graphicTextGap="2.0" prefHeight="30.0" prefWidth="230.0"
+               text="Welcome to AlgoVis!" textAlignment="CENTER" textFill="WHITE">
+          <font>
+              <Font size="24.0"/>
+          </font>
+          <effect>
+              <Reflection/>
+          </effect>
+          <opaqueInsets>
+              <Insets/>
+          </opaqueInsets>
+        </Label>
+        <Button fx:id="enterGraphVisualizer" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: GREY;"
+                text="Enter Graph Visualizer" textFill="WHITE" onMouseClicked="#handleGraphVisClick" onMouseEntered="#handleHover" onMouseExited="#handleHoverExit"/>
+        <Button fx:id="enterSortVisualizer" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: GREY;"
+                text="Enter Sort Visualizer" textFill="WHITE" onMouseClicked="#handleSortVisClick" onMouseEntered="#handleHover" onMouseExited="#handleHoverExit"/>
+        <Button fx:id="exit" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: GREY;" text="Exit"
+                textFill="WHITE" onMouseClicked="#handleExitClick" onMouseEntered="#handleHover" onMouseExited="#handleHoverExit"/>
+    </VBox>
 </Pane>

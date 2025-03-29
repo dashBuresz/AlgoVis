@@ -1,14 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="algorithmVisualizer.view.GraphAlgoViewController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<SplitPane dividerPositions="0.047619047619047616, 0.7167919799498746" orientation="VERTICAL" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #5e5d5d;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="algorithmVisualizer.view.GraphAlgoViewController">
+  <items>
+      <ToolBar prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: Gray;" />
+      <SplitPane dividerPositions="0.7429048414023373" style="-fx-background-color: #5e5d5d;">
+        <items>
+          <AnchorPane prefWidth="800.0" />
+          <AnchorPane prefHeight="528.0" prefWidth="308.0">
+               <children>
+                  <VBox layoutX="-43.0" prefHeight="528.0" prefWidth="314.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <Label text="Graph Editor" textFill="WHITE">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Separator prefWidth="200.0" />
+                        <Label text="Generate new graph" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="5.0" top="5.0" />
+                           </VBox.margin></Label>
+                        <HBox prefHeight="27.0" prefWidth="271.0">
+                           <children>
+                              <TextField promptText="Number of vertices" />
+                              <TextField promptText="Number of edges" />
+                           </children>
+                           <VBox.margin>
+                              <Insets left="5.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <RadioButton mnemonicParsing="false" text="directed" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </VBox.margin></RadioButton>
+                        <RadioButton mnemonicParsing="false" text="weighted" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </VBox.margin>
+                        </RadioButton>
+                        <RadioButton mnemonicParsing="false" text="negative edges" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </VBox.margin>
+                        </RadioButton>
+                        <RadioButton mnemonicParsing="false" text="tree" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </VBox.margin>
+                        </RadioButton>
+                        <Button mnemonicParsing="false" text="Generate graph">
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="5.0" top="10.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Separator prefWidth="200.0" />
+                        <Label text="Edit graph" textFill="WHITE">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="5.0" top="5.0" />
+                           </VBox.margin>
+                        </Label>
+                        <GridPane>
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Button mnemonicParsing="false" prefWidth="150.0" text="Add Edge" />
+                              <Button mnemonicParsing="false" prefWidth="150.0" text="Add Vertex" GridPane.columnIndex="1" />
+                              <Button mnemonicParsing="false" prefWidth="150.0" text="Remove Edge" GridPane.rowIndex="1" />
+                              <Button mnemonicParsing="false" prefWidth="150.0" text="Remove Vertex" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                           </children>
+                        </GridPane>
+                     </children></VBox>
+               </children></AnchorPane>
+        </items>
+      </SplitPane>
+    <AnchorPane prefHeight="459.0" prefWidth="1198.0" />
+  </items>
+</SplitPane>

@@ -1,33 +1,19 @@
 package algorithmVisualizer.view;
 
 import algorithmVisualizer.Main;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 /**This Class is responsible for controlling the "Main menu".
  */
 public class MainViewController {
-    @FXML
-    private Button enterGraphVisualizer;
-    @FXML
-    private Button enterSortVisualizer;
-    @FXML
-    private Button exit;
-    @FXML
-    private void initialize() {buttonSetup();}
+    public Button enterGraphVisualizer;
+    public Button enterSortVisualizer;
+    public Button exit;
 
-    private void buttonSetup()
-    {
-        //sets up all the buttons, technically could be set up in fxml,
-        //but it just felt better doing it here.
-        enterGraphVisualizer.setOnAction(event -> handleGraphVisClick());
-        enterSortVisualizer.setOnAction(event -> handleSortVisClick());
-        exit.setOnAction(event -> handleExitClick());
-    }
+    @FXML
     private void handleGraphVisClick()
     {
         System.out.println("Entering Graph-Visualizer...");
@@ -38,6 +24,7 @@ public class MainViewController {
             exception.printStackTrace();
         }
     }
+    @FXML
     private void handleSortVisClick()
     {
         System.out.println("Entering Sort-Visualizer...");
@@ -48,9 +35,23 @@ public class MainViewController {
             exception.printStackTrace();
         }
     }
+    @FXML
     private void handleExitClick()
     {
         System.out.println("Exiting...");
         System.exit(0);
+    }
+    @FXML
+    private void handleHover(MouseEvent event)
+    {
+        Button hoveredButton = (Button) event.getSource();
+        hoveredButton.setStyle("-fx-background-color: #9a9a9a; -fx-text-Fill: BLACK");
+
+    }
+    @FXML
+    private void handleHoverExit(MouseEvent event)
+    {
+        Button hoveredButton = (Button) event.getSource();
+        hoveredButton.setStyle("-fx-background-color: GREY; -fx-text-Fill: WHITE");
     }
 }
