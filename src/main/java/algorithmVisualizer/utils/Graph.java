@@ -55,7 +55,6 @@ public class Graph {
         // since trees have n-1 edges, and no cycles we can create a tree first
         // and then add more edges if the graph is not a tree,
         // oh but wait that's not good. What if we want a non-connected graph? Or do we even care? No we don't.
-        //TODO: implementation of tree generation (we'll probably need BFS for this)
         ///////////////////////////
         //BRAINSTORM
         //let's just run a BFS on the first generated graph, and if the spanning-tree returned by the runFullBFS method
@@ -79,7 +78,6 @@ public class Graph {
                     Vertex outOfTreeVertex = notInTree.get(random1);
                     Vertex inTreeVertex = treeGenerator.getBfsSpanningTree().getVertices().get(random2);
                     addEdge(new Edge(inTreeVertex, outOfTreeVertex));
-                    //TODO: updating the adjacency-list ALREADY HANDLED IN THE ADDEDGE METHOD
                 }
                 treeGenerator.runFullBFS();
             }
@@ -89,7 +87,6 @@ public class Graph {
         {
             if (weighted)
             {
-                //TODO: Implement logic for weighting edges. COMPLETE
                 if (negativeWeights) e.setWeight(random.nextInt(-10,10));
                 else e.setWeight(random.nextInt(10));
             }
@@ -115,8 +112,6 @@ public class Graph {
             edges.add(newEdge);
             m = m + 1;
             //updating the adjacency-list
-            //TODO: Implement the update of adjacencyList depending on whether the graph is directed or not
-            // (if directed we add to both to the start and end vertex adjacencyList).  COMPLETE
             for (ArrayList<Vertex> adjList : adjacencyList)
                 if (adjList.get(0).equals(newEdge.getStart())) adjList.add(newEdge.getEnd());
             if (!directed)
@@ -142,8 +137,6 @@ public class Graph {
             m = m + 1;
         }
         //updating the adjacency-list
-        //TODO: Implement the update of adjacencyList depending on whether the graph is directed or not
-        // (if directed we add to both to the start and end vertex adjacencyList).  COMPLETE
         for (ArrayList<Vertex> adjList : adjacencyList)
             if (adjList.get(0).equals(start)) adjList.add(end);
         if (!directed)
@@ -194,7 +187,6 @@ public class Graph {
         edges.remove(edge);
         m = m - 1;
         //updating the adjacency-list
-        //TODO: implement logic to make this dependent on the directed property of the graph    COMPLETE
         ArrayList<Vertex> adjListToModify = findAdjacentVertices(edge.getStart());
         adjListToModify.remove(edge.getEnd());
         if (!directed)      //if the graph is not directed, we need to modify the adjacency-list of
@@ -298,7 +290,6 @@ public class Graph {
      */
     public Edge findEdge(Vertex start, Vertex end)
     {
-        //TODO:Implement different cases for directed and non-directed graphs COMPLETE
         if (directed)
         {
             for (Edge e : edges)
