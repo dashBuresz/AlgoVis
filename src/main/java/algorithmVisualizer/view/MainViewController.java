@@ -17,32 +17,39 @@ public class MainViewController {
     @FXML
     private Button exit;
     @FXML
-    private void initialize()
-    {
-        enterGraphVisualizer.setOnAction(e -> {
-            System.out.println("Entering Graph-Visualizer...");
-            //TODO: start Graph-visualizer COMPLETE
-            try {
-                Main.switchScene("/algorithmVisualizer/view/Graph-view.fxml");
-            } catch (IOException exception)
-            {
-                exception.printStackTrace();
-            }
-        });
-        enterSortVisualizer.setOnAction(e -> {
-            System.out.println("Entering Sort-Visualizer...");
-            //TODO: start Sort-visualizer COMPLETE
-            try {
-                Main.switchScene("/algorithmVisualizer/view/Sort-view.fxml");
-            } catch (IOException exception)
-            {
-                exception.printStackTrace();
-            }
-        });
-        exit.setOnAction(e -> {
-            System.out.println("Exiting...");
-            System.exit(0);
-        });
-    }
+    private void initialize() {buttonSetup();}
 
+    private void buttonSetup()
+    {
+        //sets up all the buttons, technically could be set up in fxml,
+        //but it just felt better doing it here.
+        enterGraphVisualizer.setOnAction(event -> handleGraphVisClick());
+        enterSortVisualizer.setOnAction(event -> handleSortVisClick());
+        exit.setOnAction(event -> handleExitClick());
+    }
+    private void handleGraphVisClick()
+    {
+        System.out.println("Entering Graph-Visualizer...");
+        try {
+            Main.switchScene("/algorithmVisualizer/view/Graph-view.fxml");
+        } catch (IOException exception)
+        {
+            exception.printStackTrace();
+        }
+    }
+    private void handleSortVisClick()
+    {
+        System.out.println("Entering Sort-Visualizer...");
+        try {
+            Main.switchScene("/algorithmVisualizer/view/Sort-view.fxml");
+        } catch (IOException exception)
+        {
+            exception.printStackTrace();
+        }
+    }
+    private void handleExitClick()
+    {
+        System.out.println("Exiting...");
+        System.exit(0);
+    }
 }

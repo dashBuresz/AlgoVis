@@ -20,27 +20,9 @@
             <opaqueInsets>
                <Insets />
             </opaqueInsets></Label>
-          <Button fx:id="enterGraphVisualizer"
-                  prefHeight="25.0"
-                  prefWidth="220.0"
-                  style="-fx-background-color: GREY;"
-                  text="Enter Graph Visualizer"
-                  textFill="WHITE"
-          />
-          <Button fx:id="enterSortVisualizer"
-                  prefHeight="25.0"
-                  prefWidth="220.0"
-                  style="-fx-background-color: GREY;"
-                  text="Enter Sort Visualizer"
-                  textFill="WHITE"
-          />
-          <Button fx:id="exit"
-                  prefHeight="25.0"
-                  prefWidth="220.0"
-                  style="-fx-background-color: GREY;"
-                  text="Exit"
-                  textFill="WHITE"
-          />
+          <Button fx:id="enterGraphVisualizer" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: GREY;" text="Enter Graph Visualizer" textFill="WHITE" />
+          <Button fx:id="enterSortVisualizer" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: GREY;" text="Enter Sort Visualizer" textFill="WHITE" />
+          <Button fx:id="exit" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: GREY;" text="Exit" textFill="WHITE" />
       </VBox>
    </children>
 </Pane>
