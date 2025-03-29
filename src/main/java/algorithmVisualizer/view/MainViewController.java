@@ -3,8 +3,6 @@ package algorithmVisualizer.view;
 import algorithmVisualizer.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
-
 import java.io.IOException;
 /**This Class is responsible for controlling the "Main menu".
  */
@@ -41,17 +39,5 @@ public class MainViewController {
         System.out.println("Exiting...");
         System.exit(0);
     }
-    @FXML
-    private void handleHover(MouseEvent event)
-    {
-        Button hoveredButton = (Button) event.getSource();
-        hoveredButton.setStyle("-fx-background-color: #9a9a9a; -fx-text-Fill: BLACK");
 
-    }
-    @FXML
-    private void handleHoverExit(MouseEvent event)
-    {
-        Button hoveredButton = (Button) event.getSource();
-        hoveredButton.setStyle("-fx-background-color: GREY; -fx-text-Fill: WHITE");
-    }
 }
