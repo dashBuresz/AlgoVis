@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+/**
+ * Class representing graphs and basic operations on them. (Adding and removing edges, generating graphs based on different parameters.)
+ */
 public class Graph {
     private int n, m;
     private final boolean directed;
@@ -59,7 +62,7 @@ public class Graph {
         //BRAINSTORM
         //let's just run a BFS on the first generated graph, and if the spanning-tree returned by the runFullBFS method
         //doesn't contain all the vertices of the original graph, we know it's a non-connected-graph,
-        //we can connect the vertices that are not in the spanning tree to the spanning tree randomly, and we can run a BFS again
+        //we can connect the vertices that are not in the spanning tree to the spanning tree randomly, and we can run a BFS again,
         //so we always get a tree, until the vertices of the BFS spanning tree and the vertices of the original graph are the same.
         ///////////////////////////
         if(isTree) {

@@ -6,6 +6,9 @@ import algorithmVisualizer.utils.Vertex;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 
+/**
+ * Class representing and implementing the BFS algorithm
+ */
 public class BFS {
     //TODO Implement Breadth First Search Algorithm
     /*

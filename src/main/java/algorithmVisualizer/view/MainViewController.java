@@ -8,7 +8,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
-
+/**This Class is responsible for controlling the "Main menu".
+ */
 public class MainViewController {
     @FXML
     private Button enterGraphVisualizer;

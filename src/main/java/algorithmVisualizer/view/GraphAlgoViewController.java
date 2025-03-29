@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**This Class is responsible for controlling the "editor" where we interact with our graphs
+ */
 public class GraphAlgoViewController {
 
 }

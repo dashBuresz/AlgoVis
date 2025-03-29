@@ -1,5 +1,8 @@
 package algorithmVisualizer.utils;
 
+/**
+ * Class representing vertices
+ */
 public class Vertex {
     private final int id;
     private String name;
