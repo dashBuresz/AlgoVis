@@ -10,7 +10,6 @@ public class MainViewController {
     public Button enterGraphVisualizer;
     public Button enterSortVisualizer;
     public Button exit;
-
     @FXML
     private void handleGraphVisClick()
     {
@@ -39,5 +38,4 @@ public class MainViewController {
         System.out.println("Exiting...");
         System.exit(0);
     }
-
 }
