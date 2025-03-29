@@ -1,3 +1,5 @@
+Plans for GUI:
+    in the graph visualizer I think the functionality should be the following, for the buttons:
 | Button        | Functionality Description |
 |--------------|--------------------------|
 | **Generate Graph** | If all the parameters are given correctly, for example, in the text-field there are only positive numbers entered, we generate the graph and show it on the left-hand side. However, if the conditions aren't met, the user will get an error popup with a message and an OK button. |
