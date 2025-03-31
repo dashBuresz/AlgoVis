@@ -10,7 +10,8 @@ import javafx.scene.control.TextFormatter;
 /**This Class is responsible for controlling the "editor" where we interact with our graphs
  */
 public class GraphAlgoViewController{
-    private int n, m;
+    private int n;
+    private int m;
     private boolean directed = false;
     private boolean weighted = false;
     private boolean negativeWeights = false;
@@ -36,7 +37,9 @@ public class GraphAlgoViewController{
     private void handleGenerateGraph()
     {
         n = Integer.parseInt(vertexNumber.getText());
+        if (n == 1 || n == 0 || n == Integer.MIN_VALUE || m == Integer.MIN_VALUE) return;
         m = Integer.parseInt(edgeNumber.getText());
+        if (m > (n*(n-1))/2) m = (n*(n-1))/2;   //because we don't allow parallel or loop edges
         Graph graph = new Graph(n, m, directed, weighted);
         graph.generateGraph(tree, negativeWeights);
         GraphVisualizer graphVisualizer = new GraphVisualizer(graph);

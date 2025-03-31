@@ -4,7 +4,6 @@ import algorithmVisualizer.algorithms.BFS;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -51,37 +50,41 @@ public class Graph {
                     edges.add(newEdge);
             }
         }
-        //if the graph is a tree
-        // since trees have n-1 edges, and no cycles we can create a tree first
-        // and then add more edges if the graph is not a tree,
-        // oh but wait that's not good. What if we want a non-connected graph? Or do we even care? No we don't.
-        ///////////////////////////
-        //BRAINSTORM
-        //let's just run a BFS on the first generated graph, and if the spanning-tree returned by the runFullBFS method
-        //doesn't contain all the vertices of the original graph, we know it's a non-connected-graph,
-        //we can connect the vertices that are not in the spanning tree to the spanning tree randomly, and we can run a BFS again,
-        //so we always get a tree, until the vertices of the BFS spanning tree and the vertices of the original graph are the same.
-        ///////////////////////////
+
         if(isTree) {
+            //Complete re-imagination of our tree generation
+            //STEP 1
+            // generate a graph with n-1 edges and start a BFS from any vertex
+            m = n - 1;
+            while (edges.size() < m) {
+                random1 = random.nextInt(n);
+                random2 = random.nextInt(n);
+                Edge newEdge = new Edge(vertices.get(random1), vertices.get(random2));
+                if (random1 != random2 && !isParallelEdge(newEdge) && !isLoopEdge(newEdge))
+                    edges.add(newEdge);
+            }
             BFS treeGenerator = new BFS(this, vertices.get(0));
-            treeGenerator.runFullBFS();
-            int iterations = 0;
-            while (treeGenerator.getBfsSpanningTree().getNumberOfVertices() < n && iterations < 30)
-            {
+            //running the bfs until it's either stuck or finished
+            treeGenerator.runBFS();
+            //creating the list of vertices that didn't end up in the spanning tree
+            if (!treeGenerator.getBfsSpanningTree().getVertices().equals(vertices)) {
                 ArrayList<Vertex> notInTree = new ArrayList<>();
                 for (Vertex v : vertices)
                     if (!treeGenerator.getBfsSpanningTree().hasVertex(v)) notInTree.add(v);
-
-                if (!notInTree.isEmpty())
-                {
-                    random1 = random.nextInt(notInTree.size());
-                    random2 = random.nextInt(treeGenerator.getBfsSpanningTree().getNumberOfVertices());
-                    Vertex outOfTreeVertex = notInTree.get(random1);
-                    Vertex inTreeVertex = treeGenerator.getBfsSpanningTree().getVertices().get(random2);
-                    addEdge(new Edge(inTreeVertex, outOfTreeVertex));
+                while (treeGenerator.getBfsSpanningTree().getNumberOfVertices() < this.n) {
+                    //STEP 2
+                    // while the BFS spanning tree vertices don't contain all the vertices of the original graph.
+                    // We select a vertex from the original graph that is not in the spanning tree and connect it
+                    // Manually to the active vertex in the original graph and the spanning tree.
+                    Vertex vertex = notInTree.get(random.nextInt(notInTree.size()));
+                    treeGenerator.getBfsSpanningTree().addVertex(vertex);
+                    Edge newEdge = new Edge(treeGenerator.getActive(), vertex);
+                    treeGenerator.getBfsSpanningTree().addEdge(newEdge);
+                    edges.add(newEdge);
+                    //STEP 3
+                    // continue running the bfs until it's either finished correctly or is either stopped due to the queue emptying before it has visited all the vertices
+                    treeGenerator.runBFS();
                 }
-                iterations++;
-                treeGenerator.runFullBFS();
             }
         }
         //if the edges are weighted we assign them values randomly (depending on if there is negative weight or not)
@@ -90,11 +93,16 @@ public class Graph {
             if (weighted)
             {
                 if (negativeWeights) e.setWeight(random.nextInt(-10,10));
-                else e.setWeight(random.nextInt(10));
+                else e.setWeight(random.nextInt(0,10));
             }
             else e.setWeight(1);
         }
-
+        //debug
+        for (Edge edge : edges)
+        {
+            System.out.println("weight: " + edge.getWeight() + " start: v" + edge.getStart().id() + " end: v" + edge.getEnd().id());
+        }
+        System.out.println("|Directed: " + directed + " | Weighted: " + weighted + " | Is a Tree: " + isTree + " | Negative edges allowed: " + negativeWeights + " |");
     }
 //Getter-Setter
     public int getNumberOfEdges() {return m;}
@@ -202,13 +210,6 @@ public class Graph {
         //update the list of vertices
         vertices.remove(vertex);
         //now we remove the vertex from all the adjacency sub-lists, and we remove the adjacencyList of this vertex
-        /*Iterator<ArrayList<Vertex>> iterator = adjacencyList.iterator();
-        while (iterator.hasNext())
-        {
-            ArrayList<Vertex> subList = iterator.next();
-            if (subList.get(0).equals(vertex)) iterator.remove();
-            else subList.removeIf(v -> v.equals(vertex));
-        }*/
         for (ArrayList<Vertex> adjList : adjacencyList.values())
             adjList.remove(vertex);
         adjacencyList.remove(vertex);
@@ -221,14 +222,6 @@ public class Graph {
      */
     public ArrayList<Vertex> findAdjacentVertices(Vertex vertex)
     {
-        /*ArrayList<Vertex> adjacentVertices = new ArrayList<>();
-        for (ArrayList<Vertex> vertexArrayList : adjacencyList) {
-            if (vertex.id() == vertexArrayList.get(0).id()) {
-                adjacentVertices.addAll(vertexArrayList.subList(1, vertexArrayList.size()));
-                break;
-            }
-        }
-        return adjacentVertices;*/
         return adjacencyList.get(vertex);
     }
 
@@ -254,17 +247,13 @@ public class Graph {
      */
     private void generateVertices()
     {
-        //adding n new vertices to the graph
+        //adding n new vertices to the graph and updating the adjacency list
         for (int i = 0; i < n; i++)
         {
             Vertex newVertex = new Vertex(i + 1);
             vertices.add(newVertex);
-            //ArrayList<Vertex> adjListOfNewVertex= new ArrayList<>();
-            //add vertex to its own adjacency-sub-list
-            //adjListOfNewVertex.add(newVertex);
-            //add the adjacency-sub-list to the adjacency-list (or with other word the list of adjacency-lists)
-            //adjacencyList.add(adjListOfNewVertex);
             adjacencyList.put(newVertex, new ArrayList<>());
+            System.out.println(newVertex.id());
         }
     }
 

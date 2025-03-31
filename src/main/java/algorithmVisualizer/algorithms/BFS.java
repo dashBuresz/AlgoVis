@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * Class representing and implementing the BFS algorithm
  */
 public class BFS {
-    //TODO Implement Breadth First Search Algorithm
     /*
     * we will need a FIFO queue, and the starting vertex, the end result should be a spanning tree of our original graph
     * how bfs works:
@@ -19,7 +18,7 @@ public class BFS {
     *   we mark the vertex as complete, and we pop it from the queue
     *   after this in a cycle
     *       we add the neighbours of our currently active vertex to the queue which are not yet in the queue
-    *       we mark the vertex as complete and we move on, we do this until the queue is empty
+    *       we mark the vertex as complete, and we move on, we do this until the queue is empty
     *   done :)
     * */
     private Graph bfsSpanningTree;
@@ -38,11 +37,11 @@ public class BFS {
         active = start;
         bfsSpanningTree = new Graph(1, 0, graph.directed(), graph.weighted());
         bfsSpanningTree.addVertex(active);
-        if (graph.findAdjacentVertices(active).isEmpty()) System.err.println("active Vertex has no adjacent vertices");
+        if (graph.findAdjacentVertices(active).isEmpty() && bfsSpanningTree.getNumberOfVertices() < graph.getNumberOfVertices()) System.err.println("active Vertex has no adjacent vertices");
 
         ArrayList<Vertex> adjacentOfActive = graph.findAdjacentVertices(active);
         bfsQueue.addAll(adjacentOfActive);    //initialize the queue
-        bfsSpanningTree.getVertices().addAll(adjacentOfActive);
+        bfsSpanningTree.getVertices().addAll(adjacentOfActive); //add neighbours of active to the spanning tree
         //adding the edges between the start vertex, and its adjacent vertices
         for (Vertex v : bfsQueue)
         {
@@ -57,7 +56,7 @@ public class BFS {
      * Runs a full BFS algorithm
      * @return returns the BFS-spanning-tree
      */
-    public Graph runFullBFS()
+    public Graph runBFS()
     {
         while (!bfsQueue.isEmpty()) step();
         return bfsSpanningTree;
@@ -88,6 +87,7 @@ public class BFS {
     }
     //utils
     public void setActive(Vertex newActive) {active = newActive;}
+    public Vertex getActive() {return active;}
     public Graph getBfsSpanningTree() {return bfsSpanningTree;}
     /**
      * Checks whether the vertex given by the parameter is not the bfsQueue
