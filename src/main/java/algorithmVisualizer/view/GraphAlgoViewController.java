@@ -1,13 +1,53 @@
 package algorithmVisualizer.view;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+import algorithmVisualizer.utils.Graph;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 
 /**This Class is responsible for controlling the "editor" where we interact with our graphs
  */
-public class GraphAlgoViewController {
+public class GraphAlgoViewController{
+    private int n, m;
+    private boolean directed = false;
+    private boolean weighted = false;
+    private boolean negativeWeights = false;
+    private  boolean tree= false;
+    @FXML private CheckBox directedButton;
+    @FXML private CheckBox weightedButton;
+    @FXML private CheckBox negativeWeightButton;
+    @FXML private CheckBox treeButton;
+    @FXML private TextField vertexNumber;
+    @FXML private TextField edgeNumber;
 
+    @FXML
+    public void initialize()
+    {
+        vertexNumber.setTextFormatter(new TextFormatter<>(change ->
+                (change.getControlNewText().matches("\\d+")) ? change : null
+        ));
+        edgeNumber.setTextFormatter(new TextFormatter<>(change ->
+                (change.getControlNewText().matches("\\d+")) ? change : null
+        ));
+    }
+    @FXML
+    private void handleGenerateGraph()
+    {
+        n = Integer.parseInt(vertexNumber.getText());
+        m = Integer.parseInt(edgeNumber.getText());
+        Graph graph = new Graph(n, m, directed, weighted);
+        graph.generateGraph(tree, negativeWeights);
+        GraphVisualizer graphVisualizer = new GraphVisualizer(graph);
+    }
+    @FXML
+    private void handleCheckBox(ActionEvent event)
+    {
+        CheckBox source = (CheckBox) event.getSource();
+        if (source == directedButton) directed = directedButton.isSelected();
+        else if (source == weightedButton) weighted = weightedButton.isSelected();
+        else if (source == negativeWeightButton) negativeWeights = negativeWeightButton.isSelected();
+        else if (source == treeButton) tree = treeButton.isSelected();
+    }
 }

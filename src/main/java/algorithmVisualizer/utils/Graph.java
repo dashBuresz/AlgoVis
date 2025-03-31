@@ -3,6 +3,7 @@ package algorithmVisualizer.utils;
 import algorithmVisualizer.algorithms.BFS;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -13,7 +14,7 @@ public class Graph {
     private int n, m;
     private final boolean directed;
     private final boolean weighted;
-    private ArrayList<ArrayList<Vertex>> adjacencyList;
+    private HashMap<Vertex, ArrayList<Vertex>> adjacencyList;
     private ArrayList<Vertex> vertices;
     private ArrayList<Edge> edges;
 
@@ -23,7 +24,7 @@ public class Graph {
         this.m = m;
         this.directed = directed;
         this.weighted = weighted;
-        adjacencyList = new ArrayList<>();
+        adjacencyList = new HashMap<>();
         vertices = new ArrayList<>();
         edges = new ArrayList<>();
     }
@@ -40,13 +41,9 @@ public class Graph {
         //adding n new vertices to the graph
         generateVertices();
         int random1, random2;
-        Graph builderGraph = new Graph(n, m, directed, weighted);
-        builderGraph.vertices = this.vertices;
-
         //if the graph isn't a tree
-        //TODO: not complete yet
         if (!isTree) {
-            while (edges.size() <= m) {
+            while (edges.size() < m) {
                 random1 = random.nextInt(n);
                 random2 = random.nextInt(n);
                 Edge newEdge = new Edge(vertices.get(random1), vertices.get(random2));
@@ -68,7 +65,8 @@ public class Graph {
         if(isTree) {
             BFS treeGenerator = new BFS(this, vertices.get(0));
             treeGenerator.runFullBFS();
-            while (treeGenerator.getBfsSpanningTree().getNumberOfVertices() < n)
+            int iterations = 0;
+            while (treeGenerator.getBfsSpanningTree().getNumberOfVertices() < n && iterations < 30)
             {
                 ArrayList<Vertex> notInTree = new ArrayList<>();
                 for (Vertex v : vertices)
@@ -82,6 +80,7 @@ public class Graph {
                     Vertex inTreeVertex = treeGenerator.getBfsSpanningTree().getVertices().get(random2);
                     addEdge(new Edge(inTreeVertex, outOfTreeVertex));
                 }
+                iterations++;
                 treeGenerator.runFullBFS();
             }
         }
@@ -115,14 +114,9 @@ public class Graph {
             edges.add(newEdge);
             m = m + 1;
             //updating the adjacency-list
-            for (ArrayList<Vertex> adjList : adjacencyList)
-                if (adjList.get(0).equals(newEdge.getStart())) adjList.add(newEdge.getEnd());
+            adjacencyList.get(newEdge.getStart()).add(newEdge.getEnd());
             if (!directed)
-            {
-                for (ArrayList<Vertex> adjList : adjacencyList)
-                    if (adjList.get(0).equals(newEdge.getEnd()))
-                        adjList.add(newEdge.getStart());
-            }
+                adjacencyList.get(newEdge.getEnd()).add(newEdge.getStart());
         }
     }
     /**
@@ -140,13 +134,8 @@ public class Graph {
             m = m + 1;
         }
         //updating the adjacency-list
-        for (ArrayList<Vertex> adjList : adjacencyList)
-            if (adjList.get(0).equals(start)) adjList.add(end);
-        if (!directed)
-        {
-            for (ArrayList<Vertex> adjList : adjacencyList)
-                if (adjList.get(0).equals(end)) adjList.add(start);
-        }
+        adjacencyList.get(start).add(end);
+        if (!directed) adjacencyList.get(end).add(start);
     }
 
     /**
@@ -157,9 +146,7 @@ public class Graph {
         Vertex newVertex = new Vertex(vertices.size());
         //updating the adjacency-list
         vertices.add(newVertex);
-        ArrayList<Vertex> adjList = new ArrayList<>();
-        adjList.add(newVertex);
-        adjacencyList.add(adjList);
+        adjacencyList.put(newVertex, new ArrayList<>());
         n = n + 1;
     }
 
@@ -173,9 +160,7 @@ public class Graph {
         {
             vertices.add(vertex);
             //updating the adjacency-list
-            ArrayList<Vertex> adjList = new ArrayList<>();
-            adjList.add(vertex);
-            adjacencyList.add(adjList);
+            adjacencyList.put(vertex, new ArrayList<>());
             n += 1;
         }
     }
@@ -217,13 +202,16 @@ public class Graph {
         //update the list of vertices
         vertices.remove(vertex);
         //now we remove the vertex from all the adjacency sub-lists, and we remove the adjacencyList of this vertex
-        Iterator<ArrayList<Vertex>> iterator = adjacencyList.iterator();
+        /*Iterator<ArrayList<Vertex>> iterator = adjacencyList.iterator();
         while (iterator.hasNext())
         {
             ArrayList<Vertex> subList = iterator.next();
             if (subList.get(0).equals(vertex)) iterator.remove();
             else subList.removeIf(v -> v.equals(vertex));
-        }
+        }*/
+        for (ArrayList<Vertex> adjList : adjacencyList.values())
+            adjList.remove(vertex);
+        adjacencyList.remove(vertex);
     }
 
     /**
@@ -233,14 +221,15 @@ public class Graph {
      */
     public ArrayList<Vertex> findAdjacentVertices(Vertex vertex)
     {
-        ArrayList<Vertex> adjacentVertices = new ArrayList<>();
+        /*ArrayList<Vertex> adjacentVertices = new ArrayList<>();
         for (ArrayList<Vertex> vertexArrayList : adjacencyList) {
             if (vertex.id() == vertexArrayList.get(0).id()) {
                 adjacentVertices.addAll(vertexArrayList.subList(1, vertexArrayList.size()));
                 break;
             }
         }
-        return adjacentVertices;
+        return adjacentVertices;*/
+        return adjacencyList.get(vertex);
     }
 
     /**
@@ -270,11 +259,12 @@ public class Graph {
         {
             Vertex newVertex = new Vertex(i + 1);
             vertices.add(newVertex);
-            ArrayList<Vertex> adjListOfNewVertex= new ArrayList<>();
+            //ArrayList<Vertex> adjListOfNewVertex= new ArrayList<>();
             //add vertex to its own adjacency-sub-list
-            adjListOfNewVertex.add(newVertex);
+            //adjListOfNewVertex.add(newVertex);
             //add the adjacency-sub-list to the adjacency-list (or with other word the list of adjacency-lists)
-            adjacencyList.add(adjListOfNewVertex);
+            //adjacencyList.add(adjListOfNewVertex);
+            adjacencyList.put(newVertex, new ArrayList<>());
         }
     }
 
