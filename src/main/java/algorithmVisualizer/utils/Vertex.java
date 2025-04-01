@@ -1,32 +1,28 @@
 package algorithmVisualizer.utils;
 
+import javafx.scene.shape.Circle;
+
 /**
- * Class representing vertices
+ * Class representing vertices for both Application logic and GUI
  */
 public class Vertex {
     private final int id;
-    private String name;
-    private int pozx, pozy; //for gui purposes
-
+    private double x, y;
+    private Circle circle;
     /**
      * Creates a vertex, with the id given by the parameter, the id will also be the name of this vertex.
      * @param id: The ID of the vertex.
      */
-    Vertex(int id)
-    {
-        this.id = id;
-        this.name = Integer.toString(id);
-    }
-    /**
-     * Creates a vertex, with the id and name given by the parameters.
-     * @param id: The ID of the vertex.
-     * @param name: The name of the vertex.
-     */
-    Vertex(int id, String name)
-    {
-        this.id = id;
-        this.name = name;
-    }
-    public String name() {return name;}
+    Vertex(int id) {this.id = id;}
     public int id() {return id;}
+
+    public Circle getCircle() {
+        return circle;
+    }
+
+    public void setX(double x) {this.x = x;}
+    public void setY(double x) {this.y = y;}
+    public void setCircle(Circle circle) {this.circle = circle;}
+    public double getX() {return x;}
+    public double getY() {return y;}
 }

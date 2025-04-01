@@ -1,8 +1,14 @@
 package algorithmVisualizer.utils;
 
+import javafx.scene.shape.Line;
+
+/**
+ * Class representing edges of a graph for both application logic and GUI.
+ */
 public class Edge {
     private Vertex start, end;
     private int weight = 1;
+    private Line line;
 
     /**
      * Creates an edge with the start and end vertices given by the parameters. The weight variable here is set to 1 by default.
@@ -44,4 +50,5 @@ public class Edge {
     public void setWeight(int weight) {
         this.weight = weight;
     }
+    public void setLine(Line line) {this.line = line;}
 }

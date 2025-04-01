@@ -10,7 +10,7 @@
     <SplitPane dividerPositions="0.7429048414023373" style="-fx-background-color: #5e5d5d;">
       <ScrollPane fitToHeight="true" fitToWidth="true" style="-fx-hbar-policy: ALWAYS; -fx-vbar-policy: ALWAYS;">
          <content>
-            <Pane style="-fx-background-color: #1A1A1A;" />
+            <Pane fx:id="graphPane" style="-fx-background-color: #1A1A1A;" />
          </content>
       </ScrollPane>
         <AnchorPane prefHeight="528.0" prefWidth="308.0">

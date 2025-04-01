@@ -3,13 +3,16 @@ package algorithmVisualizer.view;
 import algorithmVisualizer.utils.Graph;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.layout.Pane;
 
 /**This Class is responsible for controlling the "editor" where we interact with our graphs
  */
 public class GraphAlgoViewController{
+    public Pane graphPane;
     private int n;
     private int m;
     private boolean directed = false;
@@ -42,7 +45,8 @@ public class GraphAlgoViewController{
         if (m > (n*(n-1))/2) m = (n*(n-1))/2;   //because we don't allow parallel or loop edges
         Graph graph = new Graph(n, m, directed, weighted);
         graph.generateGraph(tree, negativeWeights);
-        GraphVisualizer graphVisualizer = new GraphVisualizer(graph);
+        GraphRenderer graphRenderer = new GraphRenderer(graph.getEdges(), graph.getVertices(), graphPane);
+        graphRenderer.render();
     }
     @FXML
     private void handleCheckBox(ActionEvent event)
