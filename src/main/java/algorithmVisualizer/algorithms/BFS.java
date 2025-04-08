@@ -35,9 +35,9 @@ public class BFS {
     public BFS(Graph graph, Vertex start)
     {
         active = start;
-        bfsSpanningTree = new Graph(1, 0, graph.directed(), graph.weighted());
+        bfsSpanningTree = new Graph(0, 0, graph.directed(), graph.weighted());
         bfsSpanningTree.addVertex(active);
-        if (graph.findAdjacentVertices(active).isEmpty() && bfsSpanningTree.getNumberOfVertices() < graph.getNumberOfVertices()) System.err.println("active Vertex has no adjacent vertices");
+        //if (graph.findAdjacentVertices(active).isEmpty() && bfsSpanningTree.getNumberOfVertices() < graph.getNumberOfVertices()) System.err.println("active Vertex has no adjacent vertices");
 
         ArrayList<Vertex> adjacentOfActive = graph.findAdjacentVertices(active);
         bfsQueue.addAll(adjacentOfActive);    //initialize the queue

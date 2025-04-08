@@ -50,41 +50,24 @@ public class Graph {
                     edges.add(newEdge);
             }
         }
-
         if(isTree) {
-            //Complete re-imagination of our tree generation
-            //STEP 1
-            // generate a graph with n-1 edges and start a BFS from any vertex
+            ////
+            //select the first vertex of the graph,
+            // we have 2 lists of vertices one of vertices that are inside the tree and one that are not yet
+            // until all the vertices are in the tree we select one vertex randomly from both lists, and then we
+            // add the randomly selected vertex  that's outside the tree to the tree, then the process repeats
             m = n - 1;
-            while (edges.size() < m) {
-                random1 = random.nextInt(n);
-                random2 = random.nextInt(n);
-                Edge newEdge = new Edge(vertices.get(random1), vertices.get(random2));
-                if (random1 != random2 && !isParallelEdge(newEdge) && !isLoopEdge(newEdge))
-                    edges.add(newEdge);
-            }
-            BFS treeGenerator = new BFS(this, vertices.get(0));
-            //running the bfs until it's either stuck or finished
-            treeGenerator.runBFS();
-            //creating the list of vertices that didn't end up in the spanning tree
-            if (!treeGenerator.getBfsSpanningTree().getVertices().equals(vertices)) {
-                ArrayList<Vertex> notInTree = new ArrayList<>();
-                for (Vertex v : vertices)
-                    if (!treeGenerator.getBfsSpanningTree().hasVertex(v)) notInTree.add(v);
-                while (treeGenerator.getBfsSpanningTree().getNumberOfVertices() < this.n) {
-                    //STEP 2
-                    // while the BFS spanning tree vertices don't contain all the vertices of the original graph.
-                    // We select a vertex from the original graph that is not in the spanning tree and connect it
-                    // Manually to the active vertex in the original graph and the spanning tree.
-                    Vertex vertex = notInTree.get(random.nextInt(notInTree.size()));
-                    treeGenerator.getBfsSpanningTree().addVertex(vertex);
-                    Edge newEdge = new Edge(treeGenerator.getActive(), vertex);
-                    treeGenerator.getBfsSpanningTree().addEdge(newEdge);
-                    edges.add(newEdge);
-                    //STEP 3
-                    // continue running the bfs until it's either finished correctly or is either stopped due to the queue emptying before it has visited all the vertices
-                    treeGenerator.runBFS();
-                }
+            ArrayList<Vertex> inTree = new ArrayList<>();
+            inTree.add(vertices.get(0));
+            ArrayList<Vertex> outOfTree = new ArrayList<>(vertices);
+            outOfTree.remove(0);
+            while(!outOfTree.isEmpty())
+            {
+                random1 = random.nextInt(inTree.size());
+                random2 = random.nextInt(outOfTree.size());
+                edges.add(new Edge(inTree.get(random1), outOfTree.get(random2)));
+                inTree.add(outOfTree.get(random2));
+                outOfTree.remove(random2);
             }
         }
         //if the edges are weighted we assign them values randomly (depending on if there is negative weight or not)
