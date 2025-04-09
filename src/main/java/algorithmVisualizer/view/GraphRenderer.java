@@ -4,6 +4,7 @@ import algorithmVisualizer.Main;
 import algorithmVisualizer.utils.Edge;
 import algorithmVisualizer.utils.Vertex;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -19,11 +20,14 @@ public class GraphRenderer {
     private ArrayList<Edge> edges;
     private ArrayList<Vertex> vertices;
     private Pane pane;
-    GraphRenderer(ArrayList<Edge> edges, ArrayList<Vertex> vertices, Pane pane)
+    boolean weighted, directed;
+    GraphRenderer(ArrayList<Edge> edges, ArrayList<Vertex> vertices, Pane pane, boolean weighted, boolean directed)
     {
         this.edges = edges;
         this.vertices = vertices;
         this.pane = pane;
+        this.weighted = weighted;
+        this.directed = directed;
     }
     public void render()
     {
@@ -57,6 +61,9 @@ public class GraphRenderer {
         }
     }
     //Then we render the edges
+
+    //TODO: render the weights too if the graph is weighted COMPLETE
+    //TODO: render the direction of an edge if the graph is directed, in the form of an arrow
     private void renderEdges()
     {
         for (Edge edge : edges)
@@ -68,6 +75,21 @@ public class GraphRenderer {
             Line line = new Line(startX, startY, endX, endY);
             line.setStrokeWidth(5);
             line.setStroke(Color.BLUE);
+            if (weighted)
+            {
+                Text weightOfEdge = new Text(
+                        (startX+endX)/2,
+                        (startY+endY)/2,
+                        String.valueOf(edge.getWeight())
+                );
+                weightOfEdge.setFill(Color.WHITE);
+                pane.getChildren().add(weightOfEdge);
+                weightOfEdge.toFront();
+            }
+            if (directed)
+            {
+
+            }
             edge.setLine(line);
             pane.getChildren().add(line);
             line.toBack();

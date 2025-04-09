@@ -45,7 +45,7 @@ public class GraphAlgoViewController{
         if (m > (n*(n-1))/2) m = (n*(n-1))/2;   //because we don't allow parallel or loop edges
         Graph graph = new Graph(n, m, directed, weighted);
         graph.generateGraph(tree, negativeWeights);
-        GraphRenderer graphRenderer = new GraphRenderer(graph.getEdges(), graph.getVertices(), graphPane);
+        GraphRenderer graphRenderer = new GraphRenderer(graph.getEdges(), graph.getVertices(), graphPane, graph.weighted(), graph.directed());
         graphRenderer.render();
     }
     @FXML
