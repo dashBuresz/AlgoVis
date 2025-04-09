@@ -63,7 +63,7 @@ public class GraphRenderer {
     //Then we render the edges
 
     //TODO: render the weights too if the graph is weighted COMPLETE
-    //TODO: render the direction of an edge if the graph is directed, in the form of an arrow
+    //TODO: render the direction of an edge if the graph is directed, in the form of an arrow COMPLETE
     private void renderEdges()
     {
         for (Edge edge : edges)
@@ -88,7 +88,29 @@ public class GraphRenderer {
             }
             if (directed)
             {
-
+                //the arrowhead lines will be 10 pixels long
+                double arrowHeadLength = 15;
+                //the arrowhead lines will be 25 degrees from the main line
+                double arrowHeadAngle = Math.toRadians(30);
+                //angle of the main
+                double angle = Math.atan2(endY - startY, endX - startX);
+                //endpoint of the arrowhead, offset from the true end of the line because of the radius of the vertices
+                double arrowEndX = endX - 20 * Math.cos(angle);
+                double arrowEndY = endY - 20 * Math.sin(angle);
+                //creating coordinates for the other end of the arrows
+                double arrow1X = arrowEndX - arrowHeadLength * Math.cos(angle - arrowHeadAngle);
+                double arrow1Y = arrowEndY - arrowHeadLength * Math.sin(angle - arrowHeadAngle);
+                double arrow2X = arrowEndX - arrowHeadLength * Math.cos(angle + arrowHeadAngle);
+                double arrow2Y = arrowEndY - arrowHeadLength * Math.sin(angle + arrowHeadAngle);
+                //creating the lines for the arrowhead
+                Line arrowHead1 = new Line(arrowEndX, arrowEndY, arrow1X, arrow1Y);
+                Line arrowHead2 = new Line(arrowEndX, arrowEndY, arrow2X, arrow2Y);
+                //adding the lines to the screen
+                arrowHead1.setStroke(Color.BLUE);
+                arrowHead1.setStrokeWidth(5);
+                arrowHead2.setStroke(Color.BLUE);
+                arrowHead2.setStrokeWidth(5);
+                pane.getChildren().addAll(arrowHead1, arrowHead2);
             }
             edge.setLine(line);
             pane.getChildren().add(line);
