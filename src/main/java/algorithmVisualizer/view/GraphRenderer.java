@@ -61,9 +61,6 @@ public class GraphRenderer {
         }
     }
     //Then we render the edges
-
-    //TODO: render the weights too if the graph is weighted COMPLETE
-    //TODO: render the direction of an edge if the graph is directed, in the form of an arrow COMPLETE
     private void renderEdges()
     {
         for (Edge edge : edges)

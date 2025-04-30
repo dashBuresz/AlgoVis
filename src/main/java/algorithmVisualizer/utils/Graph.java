@@ -16,7 +16,7 @@ public class Graph {
     private HashMap<Vertex, ArrayList<Vertex>> adjacencyList;
     private ArrayList<Vertex> vertices;
     private ArrayList<Edge> edges;
-
+    public Graph(){directed = false; weighted = false;}
     public Graph(int n, int m, boolean directed, boolean weighted)
     {
         this.n = n;

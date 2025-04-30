@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Class representing and implementing the BFS algorithm
  */
-public class BFS {
+public class BFS extends Algorithm{
     /*
     * we will need a FIFO queue, and the starting vertex, the end result should be a spanning tree of our original graph
     * how bfs works:
@@ -22,11 +22,10 @@ public class BFS {
     *   done :)
     * */
     private Graph bfsSpanningTree;
-    private Graph graph;
     private ArrayDeque<Vertex> bfsQueue = new ArrayDeque<>();
     private ArrayDeque<Vertex> finished = new ArrayDeque<>();
     private Vertex active;
-
+    public BFS(){}
     /**
      * Constructor of the BFS algorithm, initializes the necessary collections and variables.
      * @param graph: The graph the BFS runs on.
@@ -56,7 +55,7 @@ public class BFS {
      * Runs a full BFS algorithm
      * @return returns the BFS-spanning-tree
      */
-    public Graph runBFS()
+    public Graph run()
     {
         while (!bfsQueue.isEmpty()) step();
         return bfsSpanningTree;

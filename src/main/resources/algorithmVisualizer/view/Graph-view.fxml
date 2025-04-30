@@ -84,6 +84,24 @@
                     <Button mnemonicParsing="false" prefWidth="150.0" text="Remove Edge" GridPane.rowIndex="1" />
                     <Button mnemonicParsing="false" prefWidth="150.0" text="Remove Vertex" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 </GridPane>
+            <Separator prefWidth="200.0">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Separator>
+            <Label text="Algorithm selector" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </VBox.margin>
+            </Label>
+            <ComboBox fx:id="algorithmSelector" prefWidth="150.0" styleClass="button">
+               <VBox.margin>
+                  <Insets left="5.0" top="10.0" />
+               </VBox.margin>
+            </ComboBox>
             </VBox>
         </AnchorPane>
     </SplitPane>
