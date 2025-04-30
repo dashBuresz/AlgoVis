@@ -1,7 +1,9 @@
 package algorithmVisualizer.view;
 
 import algorithmVisualizer.algorithms.*;
+import algorithmVisualizer.utils.Edge;
 import algorithmVisualizer.utils.Graph;
+import algorithmVisualizer.utils.Vertex;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -10,8 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.Pane;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**This Class is responsible for controlling the "editor" where we interact with our graphs
  */
@@ -32,6 +33,8 @@ public class GraphAlgoViewController{
     @FXML private TextField vertexNumber;
     @FXML private TextField edgeNumber;
     @FXML private ComboBox<String> algorithmSelector;
+    private GraphRenderer graphRenderer;
+    private ArrayDeque<Vertex> selectedVertices = new ArrayDeque<>();
     private final Map<String, Algorithm> algorithmOptions = new HashMap<>();
 
     @FXML
@@ -66,7 +69,39 @@ public class GraphAlgoViewController{
         if (m > (n*(n-1))/2) m = (n*(n-1))/2;   //because we don't allow parallel or loop edges
         graph = new Graph(n, m, directed, weighted);
         graph.generateGraph(tree, negativeWeights);
-        GraphRenderer graphRenderer = new GraphRenderer(graph.getEdges(), graph.getVertices(), graphPane, graph.weighted(), graph.directed());
+        graphRenderer = new GraphRenderer(graph.getEdges(), graph.getVertices(), graphPane, graph.weighted(), graph.directed());
+        graphRenderer.render();
+    }
+    @FXML
+    private void addVertex()
+    {
+        graph.addVertex();
+        graphRenderer.render();
+    }
+    @FXML
+    private void removeVertex()
+    {
+        graph.getVertices().removeIf(Vertex::selected);
+        graphRenderer.render();
+    }
+    @FXML
+    private void addEdge()
+    {
+        ArrayList<Vertex> endPoints = new ArrayList<>();
+        for (Vertex vertex : graph.getVertices())
+        {
+            if (vertex.selected()) endPoints.add(vertex);
+        }
+        if (endPoints.size()==2)
+        {
+            graph.addEdge(endPoints.get(0), endPoints.get(1), 1);
+        }
+        graphRenderer.render();
+    }
+    @FXML
+    private void removeEdge()
+    {
+        graph.getEdges().removeIf(Edge::selected);
         graphRenderer.render();
     }
     @FXML
@@ -78,15 +113,11 @@ public class GraphAlgoViewController{
         else if (source == negativeWeightButton) negativeWeights = negativeWeightButton.isSelected();
         else if (source == treeButton) tree = treeButton.isSelected();
     }
-    //TODO: Implement GUI functions for adding and removing edges and vertices
-    //we need to make the edges and vertices clickable, so we can select them.
-
-
-    //TODO: Implement GUI functions for stepping and running full algorithms
     @FXML
     private void handleAlgorithmRunner()
     {
         Algorithm algo = algorithmOptions.get(algorithmSelector.getValue());
+        algo.run();
     }
     @FXML
     private void handleAlgorithmStep()

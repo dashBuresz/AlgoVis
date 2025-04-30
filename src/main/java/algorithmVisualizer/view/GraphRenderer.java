@@ -31,7 +31,9 @@ public class GraphRenderer {
     }
     public void render()
     {
-        pane.getChildren().removeAll(pane.getChildren());
+        pane.getChildren().clear();
+        vertices.forEach(vertex -> vertex.resetSelected());
+        edges.forEach(edge -> edge.resetSelected());
         renderVertices();
         renderEdges();
     }
@@ -52,7 +54,7 @@ public class GraphRenderer {
             double y = centerY + radius * Math.sin(angle);
             Circle circle = new Circle(x, y, 20, Color.BLUE);
             circle.setAccessibleText(String.valueOf(vertices.get(i).id() + 1));
-            Text vertexLabel = new Text(x-4, y+5,String.valueOf(i + 1));
+            Text vertexLabel = new Text(x-4, y+5,String.valueOf(vertices.get(i).id()));
             vertexLabel.setFill(Color.WHITE);
             vertexLabel.toFront();
 

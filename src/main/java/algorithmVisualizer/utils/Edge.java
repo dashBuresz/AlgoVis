@@ -1,5 +1,6 @@
 package algorithmVisualizer.utils;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 /**
@@ -9,6 +10,7 @@ public class Edge {
     private Vertex start, end;
     private int weight = 1;
     private Line line;
+    private boolean selected = false;
 
     /**
      * Creates an edge with the start and end vertices given by the parameters. The weight variable here is set to 1 by default.
@@ -31,7 +33,36 @@ public class Edge {
         this(start, end);
         this.weight = weight;
     }
+    private void initLineEvents()
+    {
+        line.setOnMouseClicked(e -> {
+            selected = !selected;
+            if (selected)
+            {
+                System.out.println("selected");
+                line.setStroke(Color.GREEN);
+            }
+            else
+            {
+                System.out.println("deselected");
+                line.setStroke(Color.BLUE);
+            }
+        });
+        line.setOnMouseEntered(e -> {
+            if (!selected) {
+                line.setStroke(Color.WHITE);
+            }
+        });
+        line.setOnMouseExited(e -> {
+            if (!selected) {
+                line.setStroke(Color.BLUE);
+            }
+        });
+    }
 //getter setter
+    public boolean selected() {return selected;}
+    public void resetSelected() {selected = false;}
+
     public Vertex getStart() {
         return start;
     }
@@ -50,5 +81,9 @@ public class Edge {
     public void setWeight(int weight) {
         this.weight = weight;
     }
-    public void setLine(Line line) {this.line = line;}
+    public void setLine(Line line)
+    {
+        this.line = line;
+        initLineEvents();
+    }
 }
